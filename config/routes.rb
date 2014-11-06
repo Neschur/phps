@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
   get '*php' => 'welcome#index'
+  post '*php' => 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
