@@ -1,0 +1,35 @@
+<%
+  include 'mysql'
+
+  connection = mysql_get_real_connection
+
+  result = mysql_real_query(connection, '
+    CREATE TABLE Users (
+      id INT NOT NULL AUTO_INCREMENT,
+      email VARCHAR(80) NOT NULL,
+      display_name VARCHAR(50) NOT NULL,
+      password CHAR(41) NOT NULL,
+      PRIMARY KEY (id),
+      UNIQUE INDEX (email)
+    );
+  ')
+
+  if mysql_real_last_error
+    echo mysql_real_last_error
+  end
+
+  result = mysql_real_query(connection, '
+    CREATE TABLE Messages (
+      id INT NOT NULL AUTO_INCREMENT,
+      title VARCHAR(20) NOT NULL,
+      body CHAR(255) NOT NULL,
+      user_id INT NOT NULL,
+      PRIMARY KEY (id)
+  );
+  ')
+
+  if mysql_real_last_error
+    echo "<br>"
+    echo mysql_real_last_error
+  end
+%>

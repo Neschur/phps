@@ -1,0 +1,32 @@
+<%
+  require 'digest/md5'
+  echo include 'head'
+  echo include 'mysql'
+%>
+
+<%
+  if @user_name && @user_password1 == @user_password2
+    connection = mysql_get_real_connection
+    user_email = mysql_unreal_escape(@user_email)
+    user_name = mysql_unreal_escape(@user_name)
+    user_password = Digest::MD5.hexdigest(@user_password1)
+    mysql_real_query connection, "INSERT INTO Users VALUES (NULL, '" + user_email + "', '" + user_name +
+      "', '" + user_password + "');"
+  end
+%>
+
+<%=
+  mysql_real_last_error
+%>
+
+<form action="registration.php" method="post">
+  Почта пользователя: <input type="email" name="user_email"><br>
+  Имя пользователя: <input type="text" name="user_name"><br>
+  Пароль: <input type="password" name="user_password1"><br>
+  Пароль: <input type="password" name="user_password2"><br>
+  <input type="submit">
+</form>
+
+<%
+  echo include 'footer'
+%>

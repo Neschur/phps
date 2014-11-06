@@ -1,0 +1,32 @@
+<%
+  def mysql_get_real_connection
+    ActiveRecord::Base.establish_connection(
+      :adapter => 'mysql',
+      :database => 'phps',
+      :username => 'root',
+      :password => '',
+      :host => 'localhost'
+    ).connection
+  end
+
+  def mysql_unreal_escapes tring
+    string.gsub("'"){"\\'"}
+  end
+
+  def mysql_real_query connection, query
+    $mysql_real_last_error = nil
+    if connection.is_a? ActiveRecord::ConnectionAdapters::MysqlAdapter
+      begin
+        connection.execute(query)
+      rescue Exception => e
+        $mysql_real_last_error = e
+      end
+    else
+      $mysql_real_last_error = 'not mysql adapter'
+    end
+  end
+
+  def mysql_real_last_error
+    $mysql_real_last_error
+  end
+%>
