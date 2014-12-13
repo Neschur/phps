@@ -1,6 +1,5 @@
 <%
   require 'digest/md5'
-  echo include 'head'
   include 'mysql'
 %>
 
@@ -21,6 +20,8 @@
 %>
 
 <%=
+  echo include 'head'
+
   mysql_real_last_error
 %>
 

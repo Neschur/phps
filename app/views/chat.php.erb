@@ -1,0 +1,46 @@
+<%
+  echo include 'head'
+  include 'mysql'
+%>
+
+<%
+  if @msg
+    connection = mysql_get_connection
+    msg = mysql_unreal_escape(@msg)
+    mysql_real_query connection, "INSERT INTO Messages VALUES (NULL, '', '" + msg + "', '" + session[:user_id] + "');"
+
+    echo 'Сообщение отправлено<br>'
+  end
+%>
+
+<%=
+  mysql_real_last_error
+%>
+
+
+
+<%
+  connection = mysql_get_connection
+  result = mysql_real_query connection, "SELECT * FROM Messages JOIN Users WHERE user_id=Users.id;"
+  error = mysql_real_last_error
+
+  if error
+    echo error
+  else
+    result.each do |msg|
+      echo msg[6]
+      echo ':'
+      echo msg[2]
+      echo '<br>'
+    end
+  end
+%>
+
+<form action="chat.php" method="post">
+  Сообщение: <input type="text" name="msg"><br>
+  <input type="submit">
+</form>
+
+<%
+  echo include 'footer'
+%>
