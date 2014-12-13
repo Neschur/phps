@@ -1,17 +1,19 @@
 <%
   require 'digest/md5'
   echo include 'head'
-  echo include 'mysql'
+  include 'mysql'
 %>
 
 <%
   if @user_name && @user_password1 == @user_password2
-    connection = mysql_get_real_connection
+    connection = mysql_get_connection
     user_email = mysql_unreal_escape(@user_email)
     user_name = mysql_unreal_escape(@user_name)
     user_password = Digest::MD5.hexdigest(@user_password1)
     mysql_real_query connection, "INSERT INTO Users VALUES (NULL, '" + user_email + "', '" + user_name +
       "', '" + user_password + "');"
+
+    echo 'Регистрация закончена'
   end
 %>
 

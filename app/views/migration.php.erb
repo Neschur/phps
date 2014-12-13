@@ -1,7 +1,7 @@
 <%
   include 'mysql'
 
-  connection = mysql_get_real_connection
+  connection = mysql_get_connection
 
   result = mysql_real_query(connection, '
     CREATE TABLE Users (
