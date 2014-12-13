@@ -1,0 +1,35 @@
+<%
+  require 'digest/md5'
+  echo include 'head'
+  include 'mysql'
+%>
+
+<%
+  if @user_email && @user_password
+    connection = mysql_get_connection
+    user_email = mysql_unreal_escape(@user_email)
+    user_password = Digest::MD5.hexdigest(@user_password)
+
+    result = mysql_real_query connection, "SELECT * FROM Users WHERE email='" +
+      user_email + "' AND password='" + user_password + "'"
+
+    user = result.first
+    if user
+      session[:user_id] = user[0]
+    end
+  end
+%>
+
+<%=
+  mysql_real_last_error
+%>
+
+<form action="login.php" method="post">
+  Почта пользователя: <input type="email" name="user_email"><br>
+  Пароль: <input type="password" name="user_password"><br>
+  <input type="submit">
+</form>
+
+<%
+  echo include 'footer'
+%>

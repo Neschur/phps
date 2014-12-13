@@ -6,13 +6,22 @@
 <body>
 
 <%
-  echo '<a href="login">'
-  echo 'Вход'
-  echo '</a>'
+  if !session[:user_id]
+    echo '<a href="login">'
+    echo 'Вход'
+    echo '</a>'
+
+    echo ' '
+
+    echo '<a href="registration">'
+    echo 'Регистрация'
+    echo '</a>'
+  else
+    echo '<a href="chat">'
+    echo 'Чат'
+    echo '</a>'
+  end
 
   echo '<br>'
-
-  echo '<a href="registration">'
-  echo 'Регистрация'
-  echo '</a>'
+  echo '<br>'
 %>
